@@ -1,6 +1,6 @@
 <?php
 function proc($arr) {
-   $arr[0] = 'aaaaaa';
+   array_unshift($arr, 'aaa');
    
    global $memory;
    $memory['proc_array'] =  memory_get_peak_usage();
