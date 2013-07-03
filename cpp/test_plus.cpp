@@ -1,8 +1,5 @@
 #include <algorithm>
 #include <functional>
-#include <iterator>
-#include <exception>
-#include <fstream>
 
 #include <iostream>
 #include <bitset>
@@ -17,5 +14,12 @@
 using namespace std;
 
 int main() {
-   return 0;
+    plus<int> intAdd;
+    
+    int i1 = 10;
+    int i2 = 20;
+    cout << intAdd(i1, i2) << endl;
+    
+
+    return 0;
 }

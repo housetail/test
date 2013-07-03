@@ -17,5 +17,18 @@
 using namespace std;
 
 int main() {
-   return 0;
+    int a = -111;
+    int b = 1888;
+    
+    cout << "a:" << a << endl;
+    cout << "b:" << b << endl;
+
+    b = a ^ b;
+    a = a ^ b;
+    b = a ^ b;
+    
+    cout << "a:" << a << endl;
+    cout << "b:" << b << endl;
+    
+    return 0;
 }
