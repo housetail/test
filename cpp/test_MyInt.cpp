@@ -20,6 +20,8 @@ public:
     friend MyInt operator/ (const MyInt& item1, const MyInt& item2) { return item1._value / item2._value;};
     friend MyInt operator% (const MyInt& item1, const MyInt& item2) { return item1._value % item2._value;};
     friend MyInt operator- (const MyInt& item1) { return -item1._value;};
+    friend istream& operator>> (istream& is, MyInt& item) {int value = 0; is >> value; item = MyInt(value); return is;};
+    friend ostream& operator<< (ostream& os, const MyInt& item) { os << item._value; return os;};
     
     MyInt& operator++ () {_value++;return *this;};
 };
@@ -30,8 +32,7 @@ int main() {
     
     ++item1;
 
-    MyInt sum = item1 + item2;
-    cout << sum.value() << endl;
+    cout << item1 + item2 << endl;
 
     return 0;
 }
