@@ -106,29 +106,46 @@ TXT;
     }
 }
 
+//assoc
 /*$data = array(
     'a' => 'A',
     'b' => 'B',
 );*/
+
+//order
 /*$data = array(1,2,3,4);*/
+
+//order assoc
 /*$data = array(
     array('a1' => 'a11', 'a2' => 'a22', 'a3' => 'a33'),    
 );*/
+
+//order order
 /*$data = array(
     array('a1', 'a2', 'a3'),    
     array('a1', 'a2', 'a3'),    
     array('a1', 'a2', 'a3'),    
 );*/
-$data = array(
+
+//assoc order
+/*$data = array(
     'A' => array('a1', 'a2', 'a3'),    
     'B' => array('a1', 'a2', 'a3'),    
     'C' => array('a1', 'a2', 'a3'),    
-);
+);*/
+
+//assoc assoc
 /*$data = array(
     'A' => array('B' => array('B1' => 'B2'), 'C' => 'C1', 'D' => 'D1'),
 );*/
 
+/*$data = array(
+    'A' => array('a1', 'a2', 'a3'),    
+    'B' => array('a1' => array ('a' => 'b', 'c', 'd' => 'e'), 'a2', 'a3'),    
+    'C' => array('a1', 'a2', '好'),    
+);
+
 $doc = new DOMDocument('1.0');
 $doc->formatOutput = true;
 $doc->loadXML(XMLConvertor::xml_encode($data));
-echo $doc->saveXML();
+echo $doc->saveXML();*/
