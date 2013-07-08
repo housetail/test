@@ -4,70 +4,49 @@
  * @version $Id$
  */
 class XMLConvertor {
+    /**
+     * 将xml转成数组，xml可以是gbk，但是数组会转成utf-8
+     * @param string $xmlString
+     * @return array
+     */
     public static function xml_decode($xmlString) {
         $xmlElement = @simplexml_load_string($xmlString);
-        if (!is_object($xmlElement)) {
-            return array();
-        }
-        $name = $xmlElement->getName();
         return self::xml_decode_recursive($xmlElement);
     }
 
     protected function xml_decode_recursive($xmlElement) {
-        $arr = array();
-        if (!($xmlElement instanceof SimpleXMLElement)) {
-            return $arr;
-        }
-
-        if (!$xmlElement->children()) {
-            $key = $xmlElement->getName();
-            $value = (string) $xmlElement;
-            $arr[$key] = $value;
-            return $arr;
-        }
-
-        foreach ($xmlElement as $key => $value) {
-            if ($value->children()) {
-                // the child is a SimpleXMLElement object, travel the value recursively
-                $arrayValue = self::xml_decode_recursive($value);
-                if (empty($arrayValue)) {
-                    $arrayValue = (string) $value;// a tag with attributes alse have a children @attributes.
-                }
+        $arr = array(); 
+        foreach ($xmlElement->children() as $child) {
+            $key = $child->getName();
+            if (count($child->children()) > 0) {
+                $arr[$key][] = self::xml_decode_recursive($child);
             } else {
-                $arrayValue = (string) $value;// the node is a leaf. stop.
-            }
-
-            if (!isset($arr[$key])) {
-                $arr[$key] = $arrayValue;
-            } else {
-                $curValue = $arr[$key];
-                if (!is_array($curValue) || array_diff(array_keys($curValue), range(0, count($curValue) - 1))) {
-                    $arr[$key] = array($curValue);
-                }
-                $arr[$key][] = $arrayValue;
+                $arr[$key] = strval($child);
             }
         }
         return $arr;
     }
 
     /**
-     * convert array to xml
+     * 将数组转成xml,只支持UTF-8
      * @param array $arr
      * @return string $xml
      */
-    public static function xml_encode($data, $encoding = 'UTF-8', $root = 'root', $defaultName = 'item') {
+    public static function xml_encode($data, $root = 'root', $defaultName = 'item') {
         $header = <<<TXT
-<?xml version="1.0" encoding="{$encoding}"?><{$root}></{$root}>
+<?xml version="1.0" encoding="UTF-8"?><{$root}></{$root}>
 TXT;
         $xmlElement = new SimpleXMLElement($header);
         self::xml_encode_recursive($xmlElement, $data, $defaultName);
-        return $xmlElement->asXML();
+        $xmlString = $xmlElement->asXML();
+        
+        $doc = new DOMDocument('1.0');
+        $doc->formatOutput = true;
+        $doc->loadXML($xmlString);
+        return $doc->saveXML();
     }
 
     protected static function xml_encode_recursive(&$xmlElement, $value, $name, $isRoot = false) {
-        if (!($xmlElement instanceof SimpleXMLElement)) {
-            return;
-        }
         $name = strip_tags($name);
         if (strlen($name) < 1) {
             return;
@@ -86,6 +65,7 @@ TXT;
                             self::xml_encode_recursive($xmlElement, $atomValue, $atomName);
                         }
                     } else {
+                        $atomValue = htmlspecialchars($atomValue);
                         $xmlElement->addChild($atomName, $atomValue);
                     }
             }
@@ -95,6 +75,7 @@ TXT;
                     $child = $xmlElement->addChild($name);
                     self::xml_encode_recursive($child, $atomValue, $name);
                 } else {
+                    $atomValue = htmlspecialchars($atomValue);
                     $xmlElement->addChild($name, $atomValue);
                 }
             }
@@ -106,46 +87,3 @@ TXT;
     }
 }
 
-//assoc
-/*$data = array(
-    'a' => 'A',
-    'b' => 'B',
-);*/
-
-//order
-/*$data = array(1,2,3,4);*/
-
-//order assoc
-/*$data = array(
-    array('a1' => 'a11', 'a2' => 'a22', 'a3' => 'a33'),    
-);*/
-
-//order order
-/*$data = array(
-    array('a1', 'a2', 'a3'),    
-    array('a1', 'a2', 'a3'),    
-    array('a1', 'a2', 'a3'),    
-);*/
-
-//assoc order
-/*$data = array(
-    'A' => array('a1', 'a2', 'a3'),    
-    'B' => array('a1', 'a2', 'a3'),    
-    'C' => array('a1', 'a2', 'a3'),    
-);*/
-
-//assoc assoc
-/*$data = array(
-    'A' => array('B' => array('B1' => 'B2'), 'C' => 'C1', 'D' => 'D1'),
-);*/
-
-/*$data = array(
-    'A' => array('a1', 'a2', 'a3'),    
-    'B' => array('a1' => array ('a' => 'b', 'c', 'd' => 'e'), 'a2', 'a3'),    
-    'C' => array('a1', 'a2', '好'),    
-);
-
-$doc = new DOMDocument('1.0');
-$doc->formatOutput = true;
-$doc->loadXML(XMLConvertor::xml_encode($data));
-echo $doc->saveXML();*/
