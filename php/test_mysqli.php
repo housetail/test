@@ -12,9 +12,9 @@ if ($mysqli->connect_errno) {
 $mysqli->set_charset('latin1');
 $result = $mysqli->query($sql, MYSQLI_USE_RESULT);
 
-//while ($data = $result->fetch_assoc());
-$data = array();
-while ($data[] = $result->fetch_assoc());
+while ($data = $result->fetch_assoc());
+//$data = array();
+//while ($data[] = $result->fetch_assoc());
 
 $result->close();
 $mysqli->close();
