@@ -1,0 +1,2 @@
+<?php
+echo urldecode('\xe6\xbe\xb3\xe9\x99\x85\xe7\x95\x99\xe5\xad\xa6" onmouseover%3Dalert(2012) "');
