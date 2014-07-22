@@ -1,0 +1,10 @@
+[19-Apr-2014 10:38:31] PHP Warning:  json_encode(): recursion detected in /www/github/test/php/test_error.php on line 4
+[19-Apr-2014 10:38:31] PHP Stack trace:
+[19-Apr-2014 10:38:31] PHP   1. {main}() /www/github/test/php/test_error.php:0
+[19-Apr-2014 10:38:31] PHP   2. customErrorHandler($code = 8, $msg = 'Undefined variable: a', $file = '/www/github/test/php/test_error.php', $line = 20, $context = ...) /www/github/test/php/test_error.php:20
+[19-Apr-2014 10:38:31] PHP   3. json_encode(array (0 => 8, 1 => 'Undefined variable: a', 2 => '/www/github/test/php/test_error.php', 3 => 20, 4 => ...)) /www/github/test/php/test_error.php:4
+[19-Apr-2014 10:39:07] PHP Warning:  json_encode(): recursion detected in /www/github/test/php/test_error.php on line 5
+[19-Apr-2014 10:39:07] PHP Stack trace:
+[19-Apr-2014 10:39:07] PHP   1. {main}() /www/github/test/php/test_error.php:0
+[19-Apr-2014 10:39:07] PHP   2. customErrorHandler($code = 8, $msg = 'Undefined variable: a', $file = '/www/github/test/php/test_error.php', $line = 21, $context = ...) /www/github/test/php/test_error.php:21
+[19-Apr-2014 10:39:07] PHP   3. json_encode(array (0 => 8, 1 => 'Undefined variable: a', 2 => '/www/github/test/php/test_error.php', 3 => 21, 4 => ...)) /www/github/test/php/test_error.php:5
