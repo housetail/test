@@ -1,7 +1,5 @@
 <?php
-$seedarray = microtime();
-echo $seedarray;
-$seedstr = explode(" ", $seedarray, 5);
-var_dump($seedstr);
-$seed = $seedstr[0] * 1000000;
-var_dump($seed);
+$a = 0.7; // 不中奖的概率
+$ret = pow($a, 7);
+$ret = $ret * (pow($a, 3) + 10 * (1 - $a) * pow($a, 2) + 10 * 9 / 2 * pow(1 - $a, 2) * $a);
+echo $ret;// 中将次数小于3的概率
